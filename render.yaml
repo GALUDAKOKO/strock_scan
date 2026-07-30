@@ -1,0 +1,31 @@
+services:
+  # Backend -- FastAPI served with uvicorn.
+  - type: web
+    name: gumpol-api
+    runtime: python
+    rootDir: .
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn girp.api.main:app --host 0.0.0.0 --port $PORT --app-dir src
+    plan: free
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+
+  # Frontend -- React/Vite, built to static files and served as a Static Site.
+  # A static site is `type: web` + `runtime: static` (there is no separate
+  # `static_site` type in the current Render Blueprint spec).
+  # VITE_API_BASE must point at the backend service's public URL above
+  # (https://gumpol-api.onrender.com by default -- update if you rename the service).
+  - type: web
+    name: gumpol-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_BASE
+        value: https://gumpol-api.onrender.com
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache, no-store, must-revalidate

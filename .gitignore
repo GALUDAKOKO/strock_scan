@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.eggs/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+build/
+dist/
+
+# Local SQLite cache -- regenerated from yfinance on demand, not part of the app itself
+data/*.sqlite3
+data/*.sqlite3-journal
+
+# Frontend (frontend/ has its own .gitignore too, this is a belt-and-suspenders root rule)
+frontend/node_modules/
+frontend/dist/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Env files (never commit secrets)
+.env
+.env.local
